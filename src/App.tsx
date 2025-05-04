@@ -8,6 +8,7 @@
 import React from 'react';
 import type {PropsWithChildren} from 'react';
 import {
+  Button,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -23,6 +24,7 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import { launchAuth } from './AuthSDK';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -59,6 +61,17 @@ function App(): React.JSX.Element {
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  };
+
+  const handleAuth = async () => {
+    try {
+      const userData = await launchAuth({}, (data) => {
+        console.log('Authentication Success:', data);
+      });
+      console.log('User Data:', userData);
+    } catch (error) {
+      console.error('Authentication Error:', error);
+    }
   };
 
   /*
@@ -102,6 +115,9 @@ function App(): React.JSX.Element {
           <Section title="Learn More">
             Read the docs to discover what to do next:
           </Section>
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Button title="Authenticate" onPress={handleAuth} />
+          </View>
           <LearnMoreLinks />
         </View>
       </ScrollView>
