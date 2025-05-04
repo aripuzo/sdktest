@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import com.google.gson.Gson
 import org.json.JSONObject
 
 class AuthenticationActivity : ComponentActivity() {
@@ -22,6 +23,7 @@ class AuthenticationActivity : ComponentActivity() {
         authConfig = intent.getParcelableExtra("authConfig") ?: AuthConfig()
 
         setContent {
+            println(Gson().toJson(authConfig))
             AuthenticationScreen(
                 viewModel = viewModel,
                 onSubmit = { data ->
@@ -42,7 +44,8 @@ class AuthenticationActivity : ComponentActivity() {
                     val jsonData = jsonObject.toString()
 
                     authenticationCallback?.onAuthenticationSuccess(jsonData)
-                    finish()
+                    sendResultBack(jsonObject)
+                    //finish()
                 },
                 onFailure = { errorMessage ->
                     authenticationCallback?.onAuthenticationFailure(errorMessage)
@@ -57,17 +60,23 @@ class AuthenticationActivity : ComponentActivity() {
         val intent = Intent().apply {
             putExtra("auth_result", data.toString())
         }
-        setResult(Activity.RESULT_OK, intent)
+        setResult(RESULT_OK, intent)
         finish()
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+    }
+
     companion object {
-        fun start(context: Context, callback: AuthenticationCallback, authConfig: AuthConfig) {
+        const val AUTH_REQUEST_CODE = 1001
+
+        fun start(context: Activity, authConfig: AuthConfig?, callback: AuthenticationCallback?) {
             val intent = Intent(context, AuthenticationActivity::class.java).apply {
                 putExtra("callback", callback)
                 putExtra("authConfig", authConfig)
             }
-            context.startActivity(intent)
+            context.startActivityForResult(intent, AUTH_REQUEST_CODE)
         }
     }
 }

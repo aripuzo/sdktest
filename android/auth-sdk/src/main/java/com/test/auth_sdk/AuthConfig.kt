@@ -1,16 +1,17 @@
 package com.test.auth_sdk
 
 import android.os.Parcelable
+import androidx.compose.ui.graphics.Color
 import kotlinx.parcelize.Parcelize
 
 
 @Parcelize
 data class AuthConfig(
     val title: String = "Authentication",
-    val backgroundColor: Long = 0xFFFFFFFF,
-    val buttonColor: Long = 0xFF007BFF,
-    val buttonTextColor: Long = 0x0000000,
-    val textColor: Long = 0x0000000,
+    val backgroundColor: String = "FFFFFF",
+    val buttonColor: String = "FF007BFF",
+    val buttonTextColor: String = Color.toHex(Color.Blue),
+    val textColor: String = "000000",
     val showEmailField: Boolean = true,
     val showPasswordField: Boolean = true,
     val showUsernameField: Boolean = true,
@@ -21,5 +22,5 @@ data class AuthConfig(
     val passwordLabel: String = "Password",
     val usernameLabel: String = "Username",
     val firstNameLabel: String = "First Name",
-    val lastNameLabel: String = "Last Name"
+    val lastNameLabel: String = "Last Name",
 ) : Parcelable

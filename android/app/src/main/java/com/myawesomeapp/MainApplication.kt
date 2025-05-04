@@ -12,6 +12,7 @@ import com.facebook.react.defaults.DefaultReactHost.getDefaultReactHost
 import com.facebook.react.defaults.DefaultReactNativeHost
 import com.facebook.react.shell.MainReactPackage
 import com.facebook.react.soloader.OpenSourceMergedSoMapping
+import com.facebook.react.uimanager.ViewManager
 import com.facebook.soloader.SoLoader
 
 class MainApplication : Application(), ReactApplication {
